@@ -11,6 +11,7 @@ if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
     set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
     set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 else()
+    set(CPR_IS_SUBPROJECT ON)
     # Check required c++ standard of parent project
     if(CMAKE_CXX_STANDARD)
         set(PARENT_CXX_STANDARD ${CMAKE_CXX_STANDARD})
@@ -358,7 +359,7 @@ if(CPR_BUILD_TESTS)
 endif()
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-else()
+elseif(NOT CPR_IS_SUBPROJECT)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror")
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         # Disable C++98 compatibility support in clang: https://github.com/libcpr/cpr/issues/927
